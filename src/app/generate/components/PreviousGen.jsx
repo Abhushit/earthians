@@ -2,28 +2,15 @@ import { IoIosClose } from "react-icons/io";
 import { FaLayerGroup } from "react-icons/fa";
 import { useState } from "react";
 import Image from "next/image";
+import { useGenerationState } from "@/appstate/image-gen-state";
+import { FaEye } from "react-icons/fa";
+import { HiOutlineDotsHorizontal } from "react-icons/hi";
+import { IoIosEyeOff } from "react-icons/io";
 
 const PreviousGen = ({ closeTab }) => {
-  const [imageState, setImageState] = useState([
-    {
-      imageUrl:
-        "https://images.unsplash.com/photo-1610555356070-d0efb6505f81?q=80&w=1335&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      prompt: "green and gray mountains under white clouds",
-    },
-    {
-      imageUrl:
-        "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=1335&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      prompt: "white and blue soccer ballon green grass field",
-    },
-    {
-      imageUrl:
-        "https://images.unsplash.com/photo-1607611475229-a02a068cc758?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      prompt: "man in black jacket standing",
-    },
-  ]);
-
+  const { images, setSelectImage, selectedImage } = useGenerationState();
   return (
-    <div className="h-full w-full  ">
+    <div className="h-full w-full flex flex-col overflow-hidden">
       <div className="flex items-center justify-between py-4 px-4 border-y border-white/10">
         <div className="font-semibold text-normal flex items-center gap-3">
           <div className="p-2 rounded-md bg-blue-700 text-white">
@@ -39,25 +26,50 @@ const PreviousGen = ({ closeTab }) => {
         </button>
       </div>
 
-      <div className="p-3">
-        <div className="flex flex-col">
-          {imageState.map((image, index) => (
-            <div
-              key={index}
-              className={`flex items-center gap-2 mt-3 p-2 ${(index + 1) === imageState.length ? '' : 'border-b border-gray-500'}`}
-            >
-              <div>
-                <Image
-                  className="rounded-md object-cover"
-                  style={{ width: "50px", height: "50px", objectFit: "cover" }}
-                  src={image.imageUrl}
-                  width={50}
-                  height={50}
-                />
+      <div className="my-3">
+        <div className="flex flex-col ">
+          {images.map((image, index) => {
+            return (
+              <div
+                key={index}
+                className="flex justify-between px-4 h-[32px] w-full items-center hover:bg-blue-400 transition-all  py-[26px] "
+              >
+                <div
+                  className="text-xs cursor-pointer"
+                  onClick={() => setSelectImage(image)}
+                >
+                  {selectedImage ? (
+                    selectedImage.id === image.id ? (
+                      <FaEye />
+                    ) : (
+                      <IoIosEyeOff className="text-neutral-400" />
+                    )
+                  ) : (
+                    <IoIosEyeOff className="text-neutral-400" />
+                  )}
+                </div>
+                <div
+                  className="w-[56px] h-[32px] cursor-pointer"
+                  onClick={() => setSelectImage(image)}
+                >
+                  <Image
+                    className="h-full w-full object-cover"
+                    height={56}
+                    width={32}
+                    src={image.imageUrl}
+                  />
+                </div>
+                <div>
+                  <p className="text-xs w-[150px] truncate overflow-hidden">
+                    {image.prompt}
+                  </p>
+                </div>
+                <div className="cursor-pointer">
+                  <HiOutlineDotsHorizontal />
+                </div>
               </div>
-              <p className="text-xs">{image.prompt}</p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>

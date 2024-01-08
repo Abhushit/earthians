@@ -1,3 +1,4 @@
+import "@fortawesome/fontawesome-free/css/all.min.css";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
