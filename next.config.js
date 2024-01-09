@@ -12,6 +12,11 @@ const nextConfig = {
         hostname: "images.pexels.com", // Add any external domains for images here (e.g., "example.com")
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "img.freepik.com", // Add any external domains for images here (e.g., "example.com")
+        port: "",
+      },
     ],
   },
 };

@@ -33,6 +33,9 @@ export const useGenerationState = create((set, get) => ({
       prompt: "beautiful mountains with sun set",
     },
   ],
+  openUpgradeModal: false,
+  setOpenUpgradeModal: (payload) =>
+    set((state) => ({ openUpgradeModal: payload })),
   selectedImage: null,
   setSelectImage: (payload) => set((state) => ({ selectedImage: payload })),
   generateImage: (payload) =>

@@ -32,7 +32,7 @@ const PreviousGen = ({ closeTab }) => {
             return (
               <div
                 key={index}
-                className="flex justify-between px-4 h-[32px] w-full items-center hover:bg-blue-400 transition-all  py-[26px] "
+                className="flex justify-between gap-[10px] px-4 h-[32px] w-full items-center hover:bg-blue-400 transition-all  py-[26px] "
               >
                 <div
                   className="text-xs cursor-pointer"
@@ -57,10 +57,11 @@ const PreviousGen = ({ closeTab }) => {
                     height={56}
                     width={32}
                     src={image.imageUrl}
+                    alt={image.prompt}
                   />
                 </div>
                 <div>
-                  <p className="text-xs w-[150px] truncate overflow-hidden">
+                  <p className="text-xs w-[80px] md:w-[150px] truncate overflow-hidden">
                     {image.prompt}
                   </p>
                 </div>

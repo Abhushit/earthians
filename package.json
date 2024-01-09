@@ -11,6 +11,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.5.1",
     "@headlessui/react": "^1.7.17",
+    "framer-motion": "^10.17.9",
     "next": "14.0.4",
     "react": "^18",
     "react-dom": "^18",
