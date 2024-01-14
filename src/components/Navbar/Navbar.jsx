@@ -55,7 +55,7 @@ function Navbar({ openModal }) {
     setShowDropdown(false);
   };
   const iconClasses =
-    "text-neutral-400 hover:text-white cursor-pointer text-lg mx-4 transition duration-300 ease-in-out transform hover:scale-125";
+    "text-neutral-400 hover:text-black cursor-pointer text-lg mx-4 transition duration-300 ease-in-out transform hover:scale-125";
   const [currentColor, setCurrentColor] = React.useState("#000");
   const [customColor, setCustomColor] = React.useState("#000");
   const handleColorChange = (colorEvent) => {
@@ -72,20 +72,20 @@ function Navbar({ openModal }) {
     setShowColorDropDown(false);
   };
   return (
-    <div className="w-full h-full bg-[rgb(21,21,23)]">
+    <div className="w-full h-full border border-black/10">
       <nav className=" flex justify-between items-center h-full justify-between px-4">
         <div className="flex items-center gap-4  mr-2 lg:mr-0 lg:pl-4">
           <div className="h-full max-w-[200px] sm:w-[200px]">
             <NextImage
-              src="/images/earthians-logo.png"
+              src="/images/logo_black.png"
               alt="earthain"
               className="h-full w-full object-contain"
-              width={200}
-              height={200}
+              width={250}
+              height={250}
               priority={true}
             />
           </div>
-          <div className="hidden lg:flex items-center">
+          {/* <div className="hidden lg:flex items-center">
             <i className={`far  fa-circle ${iconClasses}`}></i>
             <i className={`fas fa-paint-brush ${iconClasses}`}></i>
             <i className={`fas fa-eraser ${iconClasses}`}></i>
@@ -134,19 +134,19 @@ function Navbar({ openModal }) {
               <i className={`fas fa-expand-arrows-alt ${iconClasses}`} />
               <i className={`fas fa-fill ${iconClasses}`} />
               <i className={`fas fa-file-export ${iconClasses}`} />
-            </div> */}
-          </div>
+            </div>
+          </div> */}
         </div>
         <div>
           <div className="flex items-center gap-2">
             <Button
               onClick={openModal}
               className={twMerge(
-                "px-4 py-1.5 text-sm border border-2 border-blue-700 bg-transparent font-semibold",
+                "px-4 py-1.5 text-sm border border-2 text-black active:text-white border-blue-700 bg-transparent font-semibold",
                 "flex gap-1 items-center"
               )}
             >
-              Upgrade
+              Upgrade 
             </Button>
             <div className="text-xl text-neutral-400 px-3">|</div>
             <Button
@@ -158,7 +158,7 @@ function Navbar({ openModal }) {
               Export
             </Button>
             {showDropdown && (
-              <div className="absolute top-16 right-2 bg-slate-950 border border-white/10  rounded-md shadow z-[100] w-56  text-white transition">
+              <div className="absolute top-16 right-2 bg-white border border-black/10  rounded-md shadow z-[100] w-56  text-black transition">
                 <div
                   className="absolute top-2 right-2 cursor-pointer"
                   onClick={toggleDropdown}
@@ -166,7 +166,7 @@ function Navbar({ openModal }) {
                   <IoMdCloseCircle className="opacity-50 hover:opacity-100 transition" />
                 </div>
                 <button
-                  className="block  mt-6 w-full py-2 px-4 text-left text-sm hover:bg-slate-800 transition"
+                  className="block  mt-6 w-full py-2 px-4 text-left text-sm hover:bg-blue-400 transition"
                   onClick={() => {
                     if (selectedImage === null) return;
 
@@ -180,7 +180,7 @@ function Navbar({ openModal }) {
                   Export as PNG
                 </button>
                 <button
-                  className="block w-full py-2 px-4 text-left text-sm hover:bg-slate-800 transition"
+                  className="block w-full py-2 px-4 text-left text-sm hover:bg-blue-400 transition"
                   onClick={() => {
                     if (selectedImage === null) return;
 

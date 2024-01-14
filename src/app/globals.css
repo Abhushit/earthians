@@ -1,6 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300&display=swap");
 
 * {
   padding: 0;
@@ -58,4 +61,104 @@
   background-color: #1d4ed8;
   border-radius: 5px;
   border: solid 2px #1d4ed8;
+}
+
+.hero-unleash-text {
+  color: #fff;
+  text-align: justify;
+  font-size: 47px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 59.4px; /* 126.383% */
+  letter-spacing: 1.41px;
+}
+
+.glowing-text {
+  color: #fff;
+  mix-blend-mode: screen;
+  font-weight: 500;
+  line-height: 59.4px; /* 126.383% */
+  letter-spacing: 1.41px;
+  text-shadow: 0px 0px 25px #377bff;
+  margin-bottom: 10px;
+}
+
+.create-account-btn {
+  border-radius: 16px;
+  background: linear-gradient(180deg, #5ab6cf 0%, #2331ff 100%);
+  box-shadow: 0 0 4px #5ab6cf, 0 0 12px #2331ff, 0 0 18px #5ab6cf;
+  text-shadow: 0px 0px 55px #377bff;
+}
+
+.earth-glowing {
+  border-radius: 50%;
+  box-shadow: 0px 0px 1.073px 0px #377bff, 0px 0px 2.146px 0px #377bff,
+    0px 0px 5px 0px #377bff, 0px 0px 10px 0px #377bff, 0px 0px 20px 0px #377bff,
+    0px 0px 30px 0px #377bff;
+}
+
+.rotate-bgfirst1 {
+  transform: rotateY(150deg);
+}
+
+.rotate-bgfirst2 {
+  transform: rotateY(30deg);
+}
+
+.bg-image-overlay{
+  background: linear-gradient(rgba(4,9,30,0.7), rgba(4,9,30,0.7))
+}
+
+.bg-theme{
+  background: linear-gradient(180deg, #111020 0%, #0F0D28 100%);
+}
+
+/* grid not working  */
+/* .grid-image{
+  display: grid;
+  grid-template-columns: repeat(600px, 4);
+  grid-template-rows: repeat(600px, 6);
+}
+.img1{
+  grid-column: 1/4;
+  grid-row: 1/3;
+}
+
+.img2{
+  grid-column: 4/5;
+  grid-row: 1/2;
+}
+
+.img3{
+  grid-column: 4/5;
+  grid-row: 2/3;
+}
+
+.img4{
+  grid-column: 1/3;
+  grid-row: 3/5;
+}
+
+.img5{
+  grid-column: 3/5;
+  grid-row: 3/5;
+}
+
+.img6{
+  grid-column: 1/2;
+  grid-row: 5/6;
+}
+
+.img7{
+  grid-column: 1/2;
+  grid-row: 6/7;
+}
+
+.img8{
+  grid-column: 2/5;
+  grid-row: 5/7;
+} */
+.text-glow {
+  text-shadow: 0 0 10px #ffffff00, 0 0 20px #ffffff00, 0 0 30px #3803f5,
+    0 0 40px #0d00ff, 0 0 50px #1900ff, 0 0 60px #2200ff, 0 0 70px #4800ff;
 }

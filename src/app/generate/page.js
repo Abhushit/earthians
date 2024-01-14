@@ -1,6 +1,7 @@
 "use client";
+import { HiMiniSquare2Stack } from "react-icons/hi2";
 import { CiCircleCheck } from "react-icons/ci";
-import { FaMagic } from "react-icons/fa";
+import { FaMagic, FaRegUserCircle } from "react-icons/fa";
 import { FaLayerGroup } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import Image from "next/image";
@@ -13,25 +14,31 @@ import Navbar from "@/components/Navbar/Navbar";
 import Modal, { ModalPanel } from "@/components/Modal/Modal";
 import { IoIosClose } from "react-icons/io";
 import Button from "@/components/Button/Button";
-
+import Community from "@/components/Community/community";
+import ArtworkSection from "@/components/ArtworkSection/artworkSection";
+import Footer from "@/components/Footer/footer";
+import { MdAddBox } from "react-icons/md";
+import { useAuthState } from "@/appstate/auth-state";
+import { useRouter } from "next/navigation";
 export default function Generate() {
   const selectedImage = useGenerationState((state) => state.selectedImage);
   const { setOpenUpgradeModal, openUpgradeModal } = useGenerationState();
-
+  const { user } = useAuthState();
+  const router = useRouter();
   const [openSidebar, setOpenSidebar] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
   const [prevTab, setPrev] = useState(null);
 
   const tabs = [
     {
-      icon: FaMagic,
+      icon: MdAddBox,
       name: "Create",
       component: CreateTab,
       isOpen: false,
     },
     {
       name: "Previous",
-      icon: FaLayerGroup,
+      icon: HiMiniSquare2Stack,
       component: PreviousGen,
       isOpen: false,
     },
@@ -50,33 +57,58 @@ export default function Generate() {
 
   return (
     <main className="h-screen w-screen overflow-x-hidden ">
-      <nav className="h-[9%]  bg-neutral-900">
+      <nav className="h-[9%]  ">
         <Navbar openModal={() => setOpenUpgradeModal(true)} />
       </nav>
-      <div className="h-[91%] z-[90] flex w-full relative z-[90] ">
+      <div className="h-[91%] bg-sky-100/30 z-[90] flex w-full relative z-[90] ">
         <div
           className={twMerge(
-            "h-full   left-0 border transition duration-300 border-white/10 bg-neutral-900 py-4 z-[10000] lg:z-[100]",
-            "w-16 lg:w-[5%] flex flex-col  items-center gap-6"
+            "h-full left-0 border-t border-black/10 bg-white py-2 z-[10000] lg:z-[100] overflow-hidden",
+            "w-16 flex flex-col justify-between items-center gap-2 relative",
+            openSidebar ? "" : "border border-black/10 "
           )}
         >
-          {tabs.map((tab, i) => {
-            const Icon = tab.icon;
-            return (
-              <button onClick={() => openSidebarHandler(tab, i)} key={i}>
-                <Icon
+          <div className="flex flex-col  gap-2 z-[100]">
+            {tabs.map((tab, i) => {
+              const Icon = tab.icon;
+              return (
+                <button
+                  onClick={() => openSidebarHandler(tab, i)}
+                  key={i}
                   className={twMerge(
-                    "text-xl hover:text-white",
+                    "rounded-md text-lg w-10 h-10 flex flex-col justify-center items-center",
                     openSidebar
                       ? i === tabIndex
-                        ? "text-white"
-                        : "text-white/60"
-                      : "text-white/60"
+                        ? "border  border-black/20"
+                        : ""
+                      : ""
                   )}
-                />
-              </button>
-            );
-          })}
+                >
+                  <Icon
+                    className={twMerge(
+                      "text-black hover:text-blue-700 ",
+                      openSidebar
+                        ? i === tabIndex
+                          ? "text-blue-700"
+                          : "text-black/60"
+                        : "text-black/60"
+                    )}
+                  />
+                </button>
+              );
+            })}
+          </div>
+          <div className="z-[100]">
+            <button className="cursor-pointer h-8 w-8  overflow-hidden rounded-full focus:ring-2 focus:ring-blue-400">
+              
+              <Image
+                height={20}
+                width={20}
+                src={user?.profileUrl}
+                className={twMerge("h-full w-full")}
+              />
+            </button>
+          </div>
         </div>
         <div
           className={twMerge(
@@ -86,8 +118,8 @@ export default function Generate() {
         />
         <div
           className={twMerge(
-            "overflow-hidden h-full bg-neutral-900  border border-white/10 text-white z-[50] transition-all duration-300 transform",
-            "absolute left-14 lg:left-0 lg:relative z-[1000] lg:z-[90] ",
+            "overflow-hidden h-full bg-white  border border-black/10 text-black z-[50] transition-all duration-300 transform",
+            "absolute left-14 lg:left-0 lg:relative z-[1000] lg:z-[90] shadow-xl",
             openSidebar
               ? "translate-x-0 w-[250px] md:w-[350px]"
               : "-translate-x-96 w-0"
@@ -97,7 +129,7 @@ export default function Generate() {
         </div>
         <div
           className={twMerge(
-            "h-full  transition-width w-[95%] duration-300",
+            "h-full bg-sky-100/30 transition-width w-[95%] duration-300",
             openSidebar ? "lg:w-[70%]" : "lg:w-[95%]"
           )}
         >
@@ -112,7 +144,7 @@ export default function Generate() {
                   {selectedImage.prompt}
                 </div>{" "}
                 <div className="w-full relative bg-neutral-400/20 h-full flex flex-col justify-center items-center">
-                  <div className="absolute">
+                  {/* <div className="absolute">
                     <div role="status">
                       <svg
                         aria-hidden="true"
@@ -132,7 +164,7 @@ export default function Generate() {
                       </svg>
                       <span class="sr-only">Loading...</span>
                     </div>
-                  </div>
+                  </div> */}
                   <Image
                     key={selectedImage.imageUrl}
                     className="h-full w-full  object-cover z-[100]"
@@ -232,6 +264,7 @@ export default function Generate() {
       </Modal>
 
       {/* )} */}
+   
     </main>
   );
 }

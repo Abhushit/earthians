@@ -6,33 +6,42 @@ import { useGenerationState } from "@/appstate/image-gen-state";
 import { FaEye } from "react-icons/fa";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { IoIosEyeOff } from "react-icons/io";
-
+import { HiMiniSquare2Stack } from "react-icons/hi2";
+import ListBox, {
+  ListBoxButton,
+  ListBoxOption,
+} from "@/components/ListBox/ListBox";
+import Dropdown, {
+  DropDownButton,
+  DropDownItem,
+} from "@/components/Dropdown/Dropdown";
+import { handleExport } from "@/utilities/handleExport";
 const PreviousGen = ({ closeTab }) => {
   const { images, setSelectImage, selectedImage } = useGenerationState();
   return (
-    <div className="h-full w-full flex flex-col overflow-hidden">
-      <div className="flex items-center justify-between py-4 px-4 border-y border-white/10">
-        <div className="font-semibold text-normal flex items-center gap-3">
+    <div className="h-full w-full flex flex-col overflow-hidden ">
+      <div className="flex items-center justify-between py-4 px-2 border-b border-black/10">
+        <div className="font-semibold text-normal flex items-center pl-1 gap-3">
           <div className="p-2 rounded-md bg-blue-700 text-white">
-            <FaLayerGroup />
+            <HiMiniSquare2Stack />
           </div>
           <p>Previous Generation</p>
         </div>
         <button
           onClick={closeTab}
-          className="text-slate-300  active:text-slate-400"
+          className="text-neutral-400  active:text-neutral-500 "
         >
           <IoIosClose size={35} />
         </button>
       </div>
 
-      <div className="my-3">
+      <div className="my-3 h-full overflow-y-scroll">
         <div className="flex flex-col ">
           {images.map((image, index) => {
             return (
               <div
                 key={index}
-                className="flex justify-between gap-[10px] px-4 h-[32px] w-full items-center hover:bg-blue-400 transition-all  py-[26px] "
+                className="flex justify-between border-b border-black/10 gap-[10px] px-4 h-[32px] w-full items-center hover:bg-blue-400 transition-all  py-[26px] "
               >
                 <div
                   className="text-xs cursor-pointer"
@@ -42,10 +51,10 @@ const PreviousGen = ({ closeTab }) => {
                     selectedImage.id === image.id ? (
                       <FaEye />
                     ) : (
-                      <IoIosEyeOff className="text-neutral-400" />
+                      <IoIosEyeOff className="text-neutral-700" />
                     )
                   ) : (
-                    <IoIosEyeOff className="text-neutral-400" />
+                    <IoIosEyeOff className="text-neutral-700" />
                   )}
                 </div>
                 <div
@@ -66,7 +75,24 @@ const PreviousGen = ({ closeTab }) => {
                   </p>
                 </div>
                 <div className="cursor-pointer">
-                  <HiOutlineDotsHorizontal />
+                  <Dropdown
+                    dropDownButton={
+                      <DropDownButton>
+                        <HiOutlineDotsHorizontal />
+                      </DropDownButton>
+                    }
+                  >
+                    <DropDownItem>
+                      <div
+                        onClick={() =>
+                          handleExport(image.imageUrl, image.prompt, false)
+                        }
+                        className="px-2 text-sm py-2 bg-white w-full h-full text-black rounded-md"
+                      >
+                        Export
+                      </div>
+                    </DropDownItem>
+                  </Dropdown>
                 </div>
               </div>
             );

@@ -1,12 +1,31 @@
-import Button from "@/components/Button/Button";
-import Image from "next/image";
-import Link from "next/link";
-export default function Home() {
+import { 
+  Hero, HomePageNavbar, UseEarthiansAI, UniqueCreative, NewHorizon, PlatformGallery
+} from "@/components/Homepage";
+import Footer from "@/components/Footer/footer";
+import Community from "@/components/Community/community";
+import ArtworkSection from "@/components/ArtworkSection/artworkSection";
+
+
+export default  function Home() {
   return (
-    <div className="h-screen w-screen flex justify-center items-center">
-      <Link href="/generate">
-        <Button>Head to generate</Button>
-      </Link>
-    </div>
+    <main className="">
+      <div
+        className={`bg-[url('/images/homepageImage.png')] h-screen w-full bg-center bg-cover bg-no-repeat relative z-[1]`}
+      >
+         <div className="absolute h-screen w-full bg-black opacity-60 -z-[1]"></div>
+        <HomePageNavbar />
+        <Hero />
+      </div>
+      <UseEarthiansAI />
+      <UniqueCreative />
+      <NewHorizon />
+      <PlatformGallery/>
+      <Community />
+      <ArtworkSection />
+
+      <footer>
+        <Footer />
+      </footer>
+    </main>
   );
 }

@@ -17,6 +17,12 @@ const nextConfig = {
         hostname: "img.freepik.com", // Add any external domains for images here (e.g., "example.com")
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com", // Add any external domains for images here (e.g., "example.com")
+        port: "",
+      },
+      
     ],
   },
 };

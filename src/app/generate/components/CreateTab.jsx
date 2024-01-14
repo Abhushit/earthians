@@ -11,10 +11,13 @@ import { useState } from "react";
 import { FaMagic } from "react-icons/fa";
 import { IoIosClose } from "react-icons/io";
 import { twMerge } from "tailwind-merge";
+import { MdAddBox } from "react-icons/md";
+
 import {
   generateRandomId,
   useGenerationState,
 } from "@/appstate/image-gen-state";
+import CreateOrUpload from "./CreateOrUpload";
 const CreateTab = ({ closeTab }) => {
   const list = [
     {
@@ -40,78 +43,98 @@ const CreateTab = ({ closeTab }) => {
     negPrompt: "",
     numberOfImage: 1,
     style: selected,
+    file: null,
   });
-  const [error, setError] = useState(false);
+  const [error, setError] = useState({
+    isError: false,
+    error: "",
+  });
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
   const { generateImage, setSelectImage, images, setOpenUpgradeModal } =
     useGenerationState();
 
   function handleGenerateImage() {
-    if (data.prompt.length === 0) {
-      setError(true);
-      return;
-    }
-    setError(false);
-
+    const id = generateRandomId(16);
     const randomIndex = Math.floor(Math.random() * images.length);
     const randomImage = images[randomIndex].imageUrl;
-    const id = generateRandomId(16);
 
-    const generation = {
-      id: id,
-      imageUrl: randomImage,
-      prompt: data.prompt,
-    };
-    generateImage(generation);
-    setSelectImage(generation);
+    if (selectedIndex === 1) {
+      if (data.file === null) {
+        setError({
+          isError: true,
+          error: "File must be upload",
+        });
+        return;
+      }
+      const fileURL = URL.createObjectURL(data.file);
+      const generation = {
+        id: id,
+        imageUrl: fileURL,
+        prompt: data.file.name.substring(0, data.file.name.lastIndexOf(".")),
+      };
+      generateImage(generation);
+      setSelectImage(generation);
+      return;
+    } else {
+      if (data.prompt.length === 0) {
+        setError({
+          isError: true,
+          error: "Prompt must not be empty ",
+        });
+        return;
+      }
+
+      const generation = {
+        id: id,
+        imageUrl: randomImage,
+        prompt: data.prompt,
+      };
+      generateImage(generation);
+      setSelectImage(generation);
+    }
+    setError({
+      isError: false,
+      error: null,
+    });
   }
   return (
     <>
       <div className="w-full h-full  flex flex-col justify-between">
-        <div className="flex items-center justify-between h-16 px-4 border-y  border-white/10">
+        <div className="flex items-center justify-between  py-4 px-4 border-b  border-black/10">
           <div className="font-semibold text-normal flex items-center gap-3">
             <div className="p-2 rounded-md bg-blue-700 text-white">
-              <FaMagic />
+              <MdAddBox />
             </div>
             <p>Create</p>
           </div>
           <button
             onClick={closeTab}
-            className="text-slate-300  active:text-slate-400"
+            className="text-neutral-400  active:text-neutral-500 "
           >
             <IoIosClose size={35} />
           </button>
         </div>
+
         <div className="h-full overflow-y-scroll w-full  py-2 ">
-          <div className="flex flex-col border-b border-white/10 pb-5">
-            <label
-              className={twMerge(
-                "font-semibold px-4 text-sm",
-                error ? "text-red-500" : "text-white"
-              )}
-            >
-              {error ? "Prompt must not be empty" : "Prompt"}
-            </label>
-            <textarea
-              onChange={(e) => {
-                setData((prev) => ({
-                  ...prev,
-                  prompt: e.target.value,
-                }));
-              }}
-              className="bg-black/20 mt-2 resize-none h-36 outline-none border border-white/10 text-sm px-2 py-2 rounded-md mx-4"
-              placeholder="Enter your imagination"
+          <div className="flex flex-col border-b border-black/10  pb-5">
+            <CreateOrUpload
+              setData={setData}
+              data={data}
+              error={error}
+              setError={setError}
+              selectedIndex={selectedIndex}
+              setSelectedIndex={setSelectedIndex}
             />
           </div>
           <div className="flex flex-col">
-            <label className="pt-2 text-white font-semibold px-4 text-sm">
-              Style
-            </label>
+            <label className="pt-2 font-semibold px-4 text-sm">Style</label>
             <div className="px-4 mt-2 z-[1000] ">
               <ListBox
                 selected={selected}
                 onChange={setSelected}
                 listBoxButton={
-                  <ListBoxButton className="px-4 bg-black/20 text-left py-3 border border-white/10 ">
+                  <ListBoxButton className="px-4 border border-blue-700 text-left py-3">
                     {selected}
                   </ListBoxButton>
                 }
@@ -120,10 +143,10 @@ const CreateTab = ({ closeTab }) => {
                   return (
                     <ListBoxOption value={item.name} key={i}>
                       <div className={"flex items-start gap-3"}>
-                        <div className="h-14 w-28 rounded-md bg-black/5 border border-white/10"></div>
+                        <div className="h-14 w-28 rounded-md  border border-blue-700"></div>
                         <div className="flex flex-col justify-start">
-                          <div className="text-sm text-white">{item.name}</div>
-                          <div className="text-xs text-neutral-400">
+                          <div className="text-sm ">{item.name}</div>
+                          <div className="text-xs text-neutral-500">
                             {item.desc}
                           </div>
                         </div>
@@ -133,7 +156,7 @@ const CreateTab = ({ closeTab }) => {
                 })}
               </ListBox>
             </div>
-            <div className="w-full border-b border-white/10 mt-4 z-[90] "></div>
+            <div className="w-full border-b border-black/10 mt-4 z-[90] "></div>
           </div>
           {/* <div className="flex flex-col border-b border-white/10 pt-2 pb-5">
             <label className="text-white font-semibold px-4 text-sm">
@@ -151,8 +174,8 @@ const CreateTab = ({ closeTab }) => {
             />
           </div> */}
 
-          <div className="flex flex-col pt-2 pb-5">
-            <label className="text-white font-semibold px-4 text-sm">
+          <div className="flex flex-col pt-3 pb-5">
+            <label className=" font-semibold px-4 text-sm">
               Number Of Images
             </label>
             <div className="flex items-center gap-3 px-4 mt-2">
@@ -168,7 +191,7 @@ const CreateTab = ({ closeTab }) => {
                 <div className=" h-4 w-4 absolute -right-1 top-1  rounded-full bg-blue-700 flex justify-center items-center">
                   <FaCheck className="text-white text-sm" size={10} />
                 </div>
-                <div className="bg-black/20 mt-2 resize-none h-10 w-10 outline-none border border-white/10 text-sm py-2 rounded-md flex items-center justify-center cursor-pointer">
+                <div className="bg-white/20 mt-2 resize-none h-10 w-10 outline-none border border-blue-700 text-sm py-2 rounded-md flex items-center justify-center cursor-pointer">
                   1
                 </div>
               </div>
@@ -182,10 +205,10 @@ const CreateTab = ({ closeTab }) => {
                   setOpenUpgradeModal(true);
                 }}
               >
-                <div className=" h-4 w-4 absolute -right-1 top-1  rounded-full bg-neutral-600  flex justify-center items-center">
+                <div className=" h-4 w-4 absolute -right-1 top-1  rounded-full bg-neutral-400  flex justify-center items-center">
                   <FaLock className="text-white " size={10} />
                 </div>
-                <div className="text-neutral-400 bg-black/20 mt-2 resize-none h-10 w-10 outline-none border border-white/10 text-sm py-2 rounded-md flex items-center justify-center cursor-pointer">
+                <div className="text-neutral-600 bg-white/20 mt-2 resize-none h-10 w-10 outline-none border border-blue-700 text-sm py-2 rounded-md flex items-center justify-center cursor-pointer">
                   2
                 </div>
               </div>
@@ -200,10 +223,10 @@ const CreateTab = ({ closeTab }) => {
                   setOpenUpgradeModal(true);
                 }}
               >
-                <div className=" h-4 w-4 absolute -right-1 top-1  rounded-full bg-neutral-600  flex justify-center items-center">
+                <div className=" h-4 w-4 absolute -right-1 top-1  rounded-full bg-neutral-400  flex justify-center items-center">
                   <FaLock className="text-white " size={10} />
                 </div>
-                <div className="text-neutral-400 bg-black/20 mt-2 resize-none h-10 w-10 outline-none border border-white/10 text-sm py-2 rounded-md flex items-center justify-center cursor-pointer">
+                <div className="text-neutral-600 bg-white/20 mt-2 resize-none h-10 w-10 outline-none border border-blue-700 text-sm py-2 rounded-md flex items-center justify-center cursor-pointer">
                   3
                 </div>
               </div>
@@ -217,10 +240,10 @@ const CreateTab = ({ closeTab }) => {
                   setOpenUpgradeModal(true);
                 }}
               >
-                <div className=" h-4 w-4 absolute -right-1 top-1  rounded-full bg-neutral-600  flex justify-center items-center">
+                <div className=" h-4 w-4 absolute -right-1 top-1  rounded-full bg-neutral-400  flex justify-center items-center">
                   <FaLock className="text-white " size={10} />
                 </div>
-                <div className="text-neutral-400 bg-black/20 mt-2 resize-none h-10 w-10 outline-none border border-white/10 text-sm py-2 rounded-md flex items-center justify-center cursor-pointer">
+                <div className="text-neutral-600 bg-white/20 mt-2 resize-none h-10 w-10 outline-none border border-blue-700 text-sm py-2 rounded-md flex items-center justify-center cursor-pointer">
                   4
                 </div>
               </div>

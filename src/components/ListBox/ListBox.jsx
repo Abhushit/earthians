@@ -19,7 +19,7 @@ export default function ListBox({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="absolute z-[1000] mt-1  w-full overflow-auto rounded-md bg-[#121212] border border-white/10 py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+            <Listbox.Options className="absolute z-[1000] mt-1  w-full overflow-auto rounded-md  bg-white border border-black/10 py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
               {children}
             </Listbox.Options>
           </Transition>
