@@ -26,7 +26,7 @@ const AuthButton = () => {
     return (
       <Link href="/generate">
         <button className="w-[207px] h-[45px] rounded-2xl create-account-btn font-outfit">
-          Generate imagination
+          Dashboard
         </button>
       </Link>
     );

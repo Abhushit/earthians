@@ -3,6 +3,7 @@ import BikerImage from '/public/images/biker1.png'
 import MountainImage from '/public/images/mountain.png'
 import HomeImage from '/public/images/house.png'
 import WhiteMoonImage from '/public/images/whitemoon.png'
+import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
 
 import Image from 'next/image'
 import { useState } from 'react'
@@ -28,7 +29,7 @@ const NewHorizon = () => {
                 <div className='py-20 max-w-[90rem] m-auto'>
                     <div className="text-white text-center font-outfit">
                         <h2 className="text-[47px]">Use New Creative Horizons with<br />Fine-tune Models</h2>
-                        <h3 className="glowing-text text-[35px]">Earthians Diffusion XL</h3>
+                        <h3 className="glowing-text text-[35px] mt-10">Earthians Diffusion XL</h3>
                     </div>
                     {/* slider  */}
                     <div className='flex justify-around items-center py-14'>
@@ -62,6 +63,11 @@ const NewHorizon = () => {
                     </div>
                     {/* slider  */}
                     <p className='text-center text-white text-[19px] w-1/2 m-auto'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quisquam, sint? Quaerat, dolorem. Repellendus molestias recusandae perspiciatis.</p>
+                </div>
+
+                <div className='flex items-center justify-center text-white pb-10'>
+                    <span className='mx-2 text-[25px] cursor-pointer' onClick={handleLeftClick}> <FaAngleLeft /> </span>
+                    <span className='mx-2 text-[25px] cursor-pointer' onClick={handleRightClick}> <FaAngleRight /> </span>
                 </div>
             </div>
         </div>
